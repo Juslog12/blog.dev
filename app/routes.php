@@ -12,7 +12,7 @@
 */
 
 
-Route::get('/resume', function()
+Route::get('/portfolio', function()
 {
-    return "This is my resume.";
+    return "This is my portfolio.";
 });
