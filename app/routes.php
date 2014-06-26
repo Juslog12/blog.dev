@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', function()
+
+Route::get('/resume', function()
 {
-	return View::make('hello');
+    return "This is my resume.";
 });
