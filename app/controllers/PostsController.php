@@ -10,7 +10,8 @@ class PostsController extends \BaseController {
 	public function index()
 	{
 		//return "Show a list of all posts";	
- 		return View::make('posts.index')->with('posts', Post::all());
+ 		$posts = Post::paginate(4);
+ 		return View::make('posts.index')->with(array('posts' => $posts));
 	}
 	/**
 	 * Show the form for creating a new resource.
@@ -73,9 +74,10 @@ class PostsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		return "Show a form for editing a specific post";
+		//return "Show a form for editing a specific post";
+		$post = Post::find($id);
+		return View::make('posts.edit')->with('post', $post);
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
@@ -85,7 +87,13 @@ class PostsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$post = Post::find($id);
+		$post->title = Input::get('title');
+		$post->body = Input::get('body');
+		$post->save();
+		return Redirect::action('PostsController@index');
+		
+		
 	}
 
 
