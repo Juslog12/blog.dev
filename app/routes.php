@@ -10,73 +10,59 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
+/*
 Route::get('/', function()
 {
 	return View::make('hello');
 });
+*/
 
+Route::get('/resume', 'HomeController@showResume');
+Route::get('/portfolio', 'HomeController@showPortfolio');
 
+Route::resource('posts', 'PostsController');
+
+/*
+Route::get('/orm-test', function () 
+{
+ 	//$posts = Post::all();
+
+ 	//foreach ($posts as $post){
+ 	//	echo $post->title . "<br>";
+ 	//	echo $post->body . "<br>";
+ 	//
+}*/
+
+ 	/*$post = Post::find(1);
+
+ 	echo $post->title . "<br>";
+ 	echo $post->body . "<br>";
+ 	return "Eloquent ORM is great!";
+	});*/
+
+	
+	//$post = Post::find(1);
+	//$post->title = "New Title Goes Here.";
+	//$post->save();
+
+	
+
+/*
 Route::get('/resume', function()
 {
-    return "This is my resume";
+	return View::make('pages.resume');
 });
 
 
 Route::get('/portfolio', function()
 {
-    return "This is my portfolio";
+	return View::make('pages.portfolio');
 });
+*/
 
 
-Route::get('/', function()
-{
-	return View::make('temp.my-first-view');
-});
 
 
-Route::get('/contacts/{id}', function($contacId)
-{
-	return "Contact: $contactId";
-});
 
 
-Route::get('/contacts/{id}', function($contacId)
-{
-	return View::make('contacts.show')->with('contact_id',$contactId);
-});
-
-
-Route::get('/sayhello/{name}', function($name)
-{
-    if ($name == "Chris")
-    {
-        return Redirect::to('/');
-    }
-    else
-    {
-        return View::make('temp.my-first-view')->with('name',$name);
-
-    }
-});
-//second way of doing above
-
-Route::get('/sayhello/{name}', function($name)
-{
-    if ($name == "Chris")
-    {
-        return Redirect::to('/');
-    }
-    else
-    {
-        $data = array('name' => $name);
-        return View::make('temp.my-first-view')->with($data);
-        
-    }
-});
-
-Route::get('/rolldice', function()
-{
-    return "Lets roll dice!";
-});
 
