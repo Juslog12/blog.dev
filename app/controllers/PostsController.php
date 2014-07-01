@@ -22,7 +22,7 @@ class PostsController extends \BaseController {
 	{
 		
 		//Log::info('Someone is trying to create a post.');
-		return View::make('posts.create');
+		return View::make('posts.create-edit');
 	}	
 
 	/**
@@ -32,7 +32,6 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		
 		$validator = Validator::make(Input::all(), Post::$rules);
 
 		if ($validator->fails())
@@ -76,7 +75,7 @@ class PostsController extends \BaseController {
 	{
 		//return "Show a form for editing a specific post";
 		$post = Post::find($id);
-		return View::make('posts.edit')->with('post', $post);
+		return View::make('posts.create-edit')->with('post', $post);
 	}
 
 	/**
