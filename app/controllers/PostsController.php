@@ -1,12 +1,21 @@
 <?php
 
 class PostsController extends \BaseController {
+	
+	public function __construct()
+	{
+	    // call base controller constructor
+	    parent::__construct();
+	    // run auth filter before all methods on this controller except index and show
+	    $this->beforeFilter('auth.basic', array('except' => array('index', 'show')));
+	}
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
+
 	public function index()
 	{
 		//return "Show a list of all posts";	
@@ -18,9 +27,9 @@ class PostsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+
 	public function create()
-	{
-		
+	{	
 		//Log::info('Someone is trying to create a post.');
 		return View::make('posts.create-edit');
 	}	
@@ -48,9 +57,7 @@ class PostsController extends \BaseController {
 			$post->save();
 			Session::flash('successMessage', 'Post saved successfully.');
 			return Redirect::action('PostsController@index');
-	    }
-
-		
+	    }		
 	}
 
 
@@ -93,9 +100,7 @@ class PostsController extends \BaseController {
 		$post->title = Input::get('title');
 		$post->body = Input::get('body');
 		$post->save();
-		return Redirect::action('PostsController@index');
-		
-		
+		return Redirect::action('PostsController@index');		
 	}
 
 
@@ -107,7 +112,10 @@ class PostsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$post = Post::findOrFail($id);
+		$post->delete();
+		Session::flash('successMessage', 'Post deleted successfully.');
+		return Redirect::action('PostsController@index');
 	}
 
 
