@@ -32,11 +32,13 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
+
 		$validator = Validator::make(Input::all(), Post::$rules);
 
 		if ($validator->fails())
 	    {
-	       return Redirect::back()->withInput()->withErrors($validator); 
+	    	Session::flash('errorMessage', 'There was an error. Please complete title and body fields.');
+	       	return Redirect::back()->withInput()->withErrors($validator); 
 	    }
 	    else
 	    {
@@ -44,6 +46,7 @@ class PostsController extends \BaseController {
 			$post->title = Input::get('title');
 			$post->body = Input::get('body');
 			$post->save();
+			Session::flash('successMessage', 'Post saved successfully.');
 			return Redirect::action('PostsController@index');
 	    }
 
