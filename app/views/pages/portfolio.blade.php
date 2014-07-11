@@ -27,7 +27,7 @@
                     <p>Entrepreneur and Web Developer</p>
                 </header>
                 <div class="social-icons">
-                        <a href="https://twitter.com/" class="btn btn-round btn-clear btn-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="https://twitter.com/VelaApp" class="btn btn-round btn-clear btn-twitter"><i class="fa fa-twitter"></i></a>
                         <a href="https://www.facebook.com/justin.mason.9655" class="btn btn-round btn-clear btn-facebook"><i class="fa fa-facebook"></i></a>
                         <a href="https://www.instagram.com/" class="btn btn-round btn-clear btn-instagram"><i class="fa fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/profile/view?id=37059367&trk=spm_pic" class="btn btn-round btn-clear btn-linkedin"><i class="fa fa-linkedin-square"></i></a>

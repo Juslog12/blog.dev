@@ -17,10 +17,20 @@ Route::get('/', function()
 });
 */
 
+Route::get('/login', 'HomeController@showLogin');
+Route::post('/login', 'HomeController@doLogin');
+Route::get('/logout', 'HomeController@logout');
+
+
+Route::get('/blog', 'PostsController@index');
+
 Route::get('/resume', 'HomeController@showResume');
+
 Route::get('/portfolio', 'HomeController@showPortfolio');
 
 Route::resource('posts', 'PostsController');
+
+
 
 /*
 Route::get('/orm-test', function () 

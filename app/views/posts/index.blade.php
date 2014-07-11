@@ -10,34 +10,39 @@
 <section id="page-profile" class="page-profile">
       <div class="container">
                 <header class="section-header">
-                    <h2 class="section-title">My Current Posts</h2>
+                    <h2 class="section-title">Blog Posts</h2>
                     <div class="spacer"></div>
                     <p class="section-subtitle">Entrepreneur Stories</p> 
 
 <table class="table table-hover" align= "center" >
+ <!--<th>Photo</th>
  <th>Title</th>
  <th>Author</th>
  <th>Created</th>
  @if(Auth::check())
  <th>Action</th>
- @endif
+ @endif-->
+ <th>Most Recent</th>
 
  @foreach ($posts as $post)
  <tr>
- 	<td height="200px" width="200px">
+ 	<td style="vertical-align: middle" height="200px" width="200px">
   @if ($post->img_path)
   <img src="{{{ $post->img_path }}}" class="img-responsive">
   @endif
- 	{{link_to_action('PostsController@show', $post->title, array($post->id))}}	
+  </td>
+  <td style="vertical-align: middle"><h3>
+ 	{{link_to_action('PostsController@show', ($post->title), array($post->slug))}}
+  </h3>	
  	</td>
- 	<td>
+ 	<td style="vertical-align: middle">
  	{{{ $post->user->email }}}	
  	</td>
- 	<td>
+ 	<td style="vertical-align: middle">
  	{{{ $post->created_at->diffforhumans() }}}	
- 	</td>
+ 	</td style="vertical-align: middle">
  	@if(Auth::check())
- 	<td>
+ 	<td style="vertical-align: middle">
  	{{link_to_action('PostsController@edit', 'Edit', array($post->id), array('class' =>'btn btn-default btn-sm'))}}
  	</td>
  	@endif
@@ -45,9 +50,11 @@
  @endforeach
  </table>
 
+@if(Auth::check())
  <hr>
  {{link_to_action('PostsController@create', 'New Post', array($post->id), array('class' => 'btn btn-default btn-sm'))}}<br>
  <br>
+@endif
 {{ Form::open(array('action' =>'PostsController@index', 'class' => 'form-inline','method' => 'GET' )) }}
 <div class= "form-group">
 	{{ Form::text ('search', null, array('placeholder' => 'search here', 'class' => 'form-control col-lg-4')) }}	

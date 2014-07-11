@@ -7,7 +7,7 @@ class PostsController extends \BaseController {
 	    // call base controller constructor
 	    parent::__construct();
 	    // run auth filter before all methods on this controller except index and show
-	    $this->beforeFilter('auth.basic', array('except' => array('index', 'show')));
+	    $this->beforeFilter('auth', array('except' => array('index', 'show')));
 	}
 
 	/**
@@ -18,8 +18,16 @@ class PostsController extends \BaseController {
 
 	public function index()
 	{
-		//return "Show a list of all posts";	
- 		$posts = Post::paginate(4);
+		if(Input::has('search'))
+		{
+			$search = Input::get('search');
+			$posts = Post::with('user')->where('title', "LIKE", "%$search%")->orderBy('created_at', 'DESC')->paginate(4);	
+		}
+		else
+		{
+	 		$posts = Post::with('user')->orderBy('created_at', 'DESC')->paginate(4);
+ 		}
+
  		return View::make('posts.index')->with(array('posts' => $posts));
 	}
 	/**
@@ -42,6 +50,7 @@ class PostsController extends \BaseController {
 	public function store()
 	{
 
+
 		$validator = Validator::make(Input::all(), Post::$rules);
 
 		if ($validator->fails())
@@ -52,9 +61,19 @@ class PostsController extends \BaseController {
 	    else
 	    {
 		    $post = new Post();
+
+			$post->user()->associate(Auth::user());
+
 			$post->title = Input::get('title');
 			$post->body = Input::get('body');
+			$post->slug = '';
 			$post->save();
+			if (Input::hasFile('image') && Input::file('image')->isValid())
+			{
+			    $post->addUploadedImage(Input::file('image'));
+			    $post->save();
+			}
+
 			Session::flash('successMessage', 'Post saved successfully.');
 			return Redirect::action('PostsController@index');
 	    }		
@@ -67,10 +86,11 @@ class PostsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($slug)
 	{
 		//return "Show a specific post";
-		$post = Post::find($id);
+		$post = Post::where('slug', $slug)->firstOrFail();
+		$post->body = Parsedown::instance()->parse($post->body);
 		return View::make('posts.show')->with('post', $post);
 	}
 
@@ -96,9 +116,11 @@ class PostsController extends \BaseController {
 	 */
 	public function update($id)
 	{
+
 		$post = Post::find($id);
 		$post->title = Input::get('title');
 		$post->body = Input::get('body');
+		$post->slug = '';
 		$post->save();
 		return Redirect::action('PostsController@index');		
 	}
@@ -117,9 +139,4 @@ class PostsController extends \BaseController {
 		Session::flash('successMessage', 'Post deleted successfully.');
 		return Redirect::action('PostsController@index');
 	}
-
-
-
-
-
 }
